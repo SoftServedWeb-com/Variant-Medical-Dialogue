@@ -3,13 +3,21 @@
 import { Badge } from "@/components/ui/badge"
 import { DatePicker } from "@/components/ui/date-picker"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Appointment, severityColor, statusColor } from "@/lib/types"
+import { Appointment, AppointmentStatus, severityColor, statusColor } from "@/lib/types"
 import { Check, ClockIcon, Eye, Phone } from "lucide-react"
-import { Checkbox } from "@radix-ui/react-checkbox"
+
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 
-export default function AppointmentTab({ appointments }: { appointments: Appointment[] }){
+export default function AppointmentTab({ appointments, setAppointments }: { appointments: Appointment[], setAppointments: (appointments: Appointment[]) => void }){
 
+    const handleAppointmentAction = (id: number, action: 'Confirm' | 'Reschedule' | 'Reject') => {
+        setAppointments(appointments.map(appointment => 
+          appointment.id === id ? { ...appointment, status: action === 'Confirm' ? AppointmentStatus.CONFIRMED : action === 'Reschedule' ? AppointmentStatus.RESCHEDULED : AppointmentStatus.REJECTED } : appointment
+        ))
+      }
+    
+    
 
     return (
 
@@ -29,6 +37,7 @@ export default function AppointmentTab({ appointments }: { appointments: Appoint
                 <SelectItem value="confirmed">Confirmed</SelectItem>
                 <SelectItem value="pending">Pending</SelectItem>
                 <SelectItem value="rescheduled">Rescheduled</SelectItem>
+                <SelectItem value="rejected">Rejected</SelectItem>
               </SelectContent>
             </Select>
             <Select>
@@ -72,13 +81,13 @@ export default function AppointmentTab({ appointments }: { appointments: Appoint
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-500">{appointment.condition}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <Badge className={severityColor(appointment.severity)}>
-                      {appointment.severity}
+                  <td className="px-6 py-4 whitespace-nowrap ">
+                    <Badge className={`${severityColor(appointment.severity)}`}>
+                      {appointment.severity.toUpperCase()}
                     </Badge>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <Badge className={statusColor(appointment.status)}>
+                    <Badge className={`${statusColor(appointment.status)}`}>
                       {appointment.status}
                     </Badge>
                   </td>

@@ -17,17 +17,17 @@ export const statusColor = (status: AppointmentStatus) => {
   }
 
 export enum Severity {
-    LOW,
-    MODERATE,
-    SEVERE,
-    CRITICAL
+    LOW = "LOW",
+    MODERATE = "MODERATE",
+    SEVERE = "SEVERE",
+    CRITICAL = "CRITICAL"
 }
 
 export enum AppointmentStatus {
-    PENDING,
-    CONFIRMED,
-    RESCHEDULED,
-    REJECTED
+    PENDING = "PENDING",
+    CONFIRMED = "CONFIRMED",
+    RESCHEDULED = "RESCHEDULED",
+    REJECTED = "REJECTED"
 }
 
 export type Appointment = {

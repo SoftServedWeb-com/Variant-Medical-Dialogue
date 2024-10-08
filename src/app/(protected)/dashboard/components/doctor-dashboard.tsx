@@ -44,23 +44,16 @@ export function DoctorDashboardComponent() {
     setIsSidebarOpen(!isSidebarOpen)
   }
 
-  const handleAppointmentAction = (id: number, action: 'Confirm' | 'Reschedule' | 'Reject') => {
-    setAppointments(appointments.map(appointment => 
-      appointment.id === id ? { ...appointment, status: action === 'Confirm' ? AppointmentStatus.CONFIRMED : action === 'Reschedule' ? AppointmentStatus.RESCHEDULED : AppointmentStatus.REJECTED } : appointment
-    ))
-  }
-
 
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
+
+
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-
-
+ 
         {/* Dashboard Content */}
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
           <div className="container mx-auto px-6 py-8">
@@ -75,7 +68,7 @@ export function DoctorDashboardComponent() {
 
               {/* Appointments Section */}
               <TabsContent value="appointments">
-                <AppointmentTab appointments={appointments} />
+                <AppointmentTab appointments={appointments} setAppointments={setAppointments} />
               </TabsContent>
 
               <TabsContent value="upcoming">
