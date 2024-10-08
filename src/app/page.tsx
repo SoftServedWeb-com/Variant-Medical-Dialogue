@@ -35,7 +35,7 @@ export default function Home() {
               to open our App, confirmation of the appointment.
             </li>
             <li>
-              On appointment time, open the patient's medical report on
+              On appointment time, open the patient&apos;s medical report on
               Discharge Dialogue.
             </li>
           </ul>

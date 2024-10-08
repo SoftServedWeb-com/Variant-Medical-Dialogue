@@ -1,7 +1,9 @@
+import { DoctorDashboardComponent } from "@/components/doctor-dashboard";
+
 export default function DashboardPage() {
     return (
         <div>
-            <h1>Dashboard</h1>
+            <DoctorDashboardComponent />
         </div>
     );
 }
