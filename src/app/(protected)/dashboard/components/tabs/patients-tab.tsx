@@ -39,9 +39,6 @@ export default function PatientsTab({patients}:{patients:Patient[]}){
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-500">{patient.age}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{patient.lastVisit.toLocaleDateString()}</div>
-                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex space-x-2">
                       <Button variant="outline" size="sm">

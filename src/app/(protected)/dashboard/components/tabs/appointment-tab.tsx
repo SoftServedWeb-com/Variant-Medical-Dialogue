@@ -14,7 +14,7 @@ export default function AppointmentTab({ appointments, setAppointments }: { appo
     const [severityFilter, setSeverityFilter] = useState<Severity | 'all'>('all');
     const [dateFilter, setDateFilter] = useState<Date | null>(null);
 
-    const handleAppointmentAction = (id: number, action: 'Confirm' | 'Reschedule' | 'Reject') => {
+    const handleAppointmentAction = (id: string, action: 'Confirm' | 'Reschedule' | 'Reject') => {
         setAppointments(appointments.map(appointment => 
           appointment.id === id ? { ...appointment, status: action === 'Confirm' ? AppointmentStatus.CONFIRMED : action === 'Reschedule' ? AppointmentStatus.RESCHEDULED : AppointmentStatus.REJECTED } : appointment
         ))
