@@ -48,7 +48,7 @@ export const appointmentColumns: ColumnDef<Appointment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Patient Name
+          PATIENT NAME
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -102,7 +102,7 @@ export const appointmentColumns: ColumnDef<Appointment>[] = [
     },
     cell: ({ row }) => {
       const date = row.getValue("date") as Date;
-      return <div className="text-sm text-gray-500">{date.toLocaleDateString()}</div>;
+      return <div className="text-sm text-gray-500 ">{date.toLocaleDateString()}</div>;
     },
   },
   {

@@ -28,12 +28,12 @@ export default function AppointmentTab({ appointments, setAppointments }: { appo
     });
 
     return (
-        <div className="space-y-4">
+        <div className="">
         <DataTable 
             columns={appointmentColumns} 
             data={filteredAppointments}
             filterControls={
-                <div className="flex space-x-2">
+                <div className="flex flex-row space-x-2">
                     <DatePicker 
                         selected={dateFilter}
                         onSelect={setDateFilter}

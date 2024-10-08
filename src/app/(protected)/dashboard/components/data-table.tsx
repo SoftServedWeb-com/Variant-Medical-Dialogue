@@ -72,8 +72,16 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">Appointments</h2>
+      <h2 className="text-md font-semibold ">Appointments</h2>
+      <div className="flex md:flex-row flex-col justify-between items-center gap-4">
+        <Input
+          placeholder="Filter patient names..."
+          value={(table.getColumn("patientName")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("patientName")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
         {filterControls}
       </div>
 
@@ -121,7 +129,7 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
 
-      <div className="flex justify-between items-center mt-4">
+      <div className="flex flex-col md:flex-row gap-2 md:gap-0 justify-between items-center mt-4">
         <div className="flex space-x-2">
           <Button variant="outline">
             <Check className="h-4 w-4 mr-2" />

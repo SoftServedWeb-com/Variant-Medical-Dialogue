@@ -19,7 +19,7 @@ export const statusColor = (status: AppointmentStatus) => {
       default: return 'bg-gray-100 text-gray-600'
     }
   }
-
+  
 export enum Severity {
     LOW = "LOW",
     MODERATE = "MODERATE",
