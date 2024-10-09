@@ -61,17 +61,19 @@ model DoctorAvailability {
 }
 
 model Patient {
-  id           String           @id @default(cuid())
-  name         String
-  email        String           @unique
-  phone        String
-  address      String
-  dateOfBirth  DateTime
-  age          Int  
-  doctor       Doctor           @relation(fields: [doctorId], references: [id])
-  doctorId     String
-  appointments Appointment[]
-  history      PatientHistory[]
+  id              String           @id @default(cuid())
+  name            String
+  email           String           
+  phone           String
+  dateOfBirth     DateTime
+  age             Int  
+  appointments    Appointment[]
+  lastVisitOn     DateTime?
+  numberOfVisits  Int              @default(0)
+  chronicCondition String
+  nextVisitOn     DateTime?
+  doctor          Doctor           @relation(fields: [doctorId], references: [id])
+  doctorId        String
 }
 
 model Appointment {
@@ -97,16 +99,6 @@ model Transcription {
   createdAt     DateTime   @default(now())
 }
 
-model PatientHistory {
-  id             String   @id @default(cuid())
-  patient        Patient  @relation(fields: [patientId], references: [id])
-  patientId      String
-  lastVisitOn    DateTime
-  severity       Severity
-  numberOfVisits Int      @default(0)
-  condition      String
-  nextVisitOn    DateTime
-}
 
 model ICD10Code {
   code          String @unique

@@ -69,9 +69,9 @@ export function DoctorDashboardComponent() {
   ])
 
   const [patients, setPatients] = useState<Patient[]>([
-    { id: "patient1",age: 40, name: "John Doe", email: "john@example.com", phone: "123-456-7890", address: "123 Main St", dateOfBirth: new Date("1979-05-15"), doctorId: "doctor1" },
-    { id: "patient2", age: 28, name: "Jane Smith", email: "jane@example.com", phone: "234-567-8901", address: "456 Elm St", dateOfBirth: new Date("1992-08-20"), doctorId: "doctor1" },
-    { id: "patient3", age: 55, name: "Bob Johnson", email: "bob@example.com", phone: "345-678-9012", address: "789 Oak St", dateOfBirth: new Date("1966-03-10"), doctorId: "doctor1" },
+    { id: "patient1",age: 40, patientName: "John Doe", email: "john@example.com", phone: "123-456-7890", dateOfBirth: new Date("1979-05-15"), doctorId: "doctor1", lastVisitOn: new Date("2024-09-15"), numberOfVisits: 3, chronicCondition: "Acute Myocardial Infarction", nextVisitOn: new Date("2024-10-10") },
+    { id: "patient2", age: 28, patientName: "Jane Smith", email: "jane@example.com", phone: "234-567-8901", dateOfBirth: new Date("1992-08-20"), doctorId: "doctor1", lastVisitOn: new Date("2024-09-20"), numberOfVisits: 2, chronicCondition: "Pneumonia", nextVisitOn: new Date("2024-10-20") },
+    { id: "patient3", age: 55, patientName: "Bob Johnson", email: "bob@example.com", phone: "345-678-9012", dateOfBirth: new Date("1966-03-10"), doctorId: "doctor1", lastVisitOn: new Date("2024-09-25"), numberOfVisits: 1, chronicCondition: "Fractured Wrist", nextVisitOn: new Date("2024-10-25") },
   ])
 
   const [patientHistory, setPatientHistory] = useState<PatientHistory[]>([

@@ -64,6 +64,7 @@ export function PatientProfileDialog({patientData}:{patientData?:Patient}) {
         <ScrollArea className="flex-grow">
           <div className="space-y-6 p-6">
             {/* Header Section */}
+            {JSON.stringify(patientData)}
             <div className="flex items-center space-x-2">
               <Avatar className="w-10 h-10">
                 <AvatarFallback>{patient.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>

@@ -61,13 +61,17 @@ export type DoctorAvailability = {
 
 export type Patient = {
     id: string
-    name: string
+    patientName: string
     age: number
     email: string
     phone: string
-    address: string
     dateOfBirth: Date
     doctorId: string
+ 
+    lastVisitOn: Date
+    numberOfVisits: number
+    chronicCondition: string
+    nextVisitOn?: Date
 }
 
 export type Appointment = {

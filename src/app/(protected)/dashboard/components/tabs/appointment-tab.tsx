@@ -28,10 +28,13 @@ export default function AppointmentTab({ appointments, setAppointments }: { appo
     });
 
     return (
-        <div className="">
+        <div className="space-y-4">
+        <h2 className="text-2xl font-semibold">Appointments</h2>
+
         <DataTable 
             columns={appointmentColumns} 
             data={filteredAppointments}
+            tab={"appointments"}
             filterControls={
                 <div className="flex flex-row space-x-2">
                     <DatePicker 

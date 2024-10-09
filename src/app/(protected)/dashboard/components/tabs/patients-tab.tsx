@@ -5,23 +5,16 @@ import { Input } from "@/components/ui/input";
 import { Search, Upload } from "lucide-react";
 import { Patient } from "@/lib/types";
 import { PatientProfileDialog } from "../patient-dialog-box";
+import { DataTable } from "../data-table";
+import { patientColumns } from "../columns";
 
-export default function PatientsTab({patients}:{patients:Patient[]}){
-    return (
+export default function PatientsTab({ patients }: { patients: Patient[] }) {
+  return (
+    <div className="space-y-4">
+        <h2 className="text-2xl font-semibold">Patients</h2>
+      <DataTable columns={patientColumns} data={patients} tab={"patients"} />
 
-        <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-semibold">Patients</h2>
-          <div className="flex space-x-2">
-            <Input type="text" placeholder="Search patients..." className="w-64" />
-            <Button>
-              <Search className="h-4 w-4 mr-2" />
-              Search
-            </Button>
-          </div>
-        </div>
-
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+      {/* <div className="bg-white shadow-md rounded-lg overflow-hidden">
           <table className="min-w-full">
             <thead>
               <tr className="bg-gray-50 border-b">
@@ -42,10 +35,6 @@ export default function PatientsTab({patients}:{patients:Patient[]}){
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex space-x-2">
-                      {/* <Button variant="outline" size="sm">
-                        <Eye className="h-4 w-4 mr-2" />
-                        View Profile
-                      </Button> */}
                       <PatientProfileDialog patientData={patient} />
                       <Button variant="outline" size="sm">
                         <Upload  className="h-4 w-4 mr-2" />
@@ -57,8 +46,7 @@ export default function PatientsTab({patients}:{patients:Patient[]}){
               ))}
             </tbody>
           </table>
-        </div>
-      </div>
-
-    )
+        </div> */}
+    </div>
+  );
 }
