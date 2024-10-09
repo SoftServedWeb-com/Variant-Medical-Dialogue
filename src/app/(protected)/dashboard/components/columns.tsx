@@ -49,6 +49,26 @@ export const appointmentColumns: ColumnDef<Appointment>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "id",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Patient ID
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-sm font-medium text-gray-900">
+        {JSON.stringify(row.index)}
+        {row.getValue("id")}
+      </div>
+    ),
+  },
+  {
     accessorKey: "patientName",
     header: ({ column }) => {
       return (
