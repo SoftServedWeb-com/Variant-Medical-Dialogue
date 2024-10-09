@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Upload } from "lucide-react";
 import { Patient } from "@/lib/types";
+import { PatientProfileDialog } from "../patient-dialog-box";
 
 export default function PatientsTab({patients}:{patients:Patient[]}){
     return (
@@ -41,10 +42,11 @@ export default function PatientsTab({patients}:{patients:Patient[]}){
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex space-x-2">
-                      <Button variant="outline" size="sm">
+                      {/* <Button variant="outline" size="sm">
                         <Eye className="h-4 w-4 mr-2" />
                         View Profile
-                      </Button>
+                      </Button> */}
+                      <PatientProfileDialog patientData={patient} />
                       <Button variant="outline" size="sm">
                         <Upload  className="h-4 w-4 mr-2" />
                         Upload Report
