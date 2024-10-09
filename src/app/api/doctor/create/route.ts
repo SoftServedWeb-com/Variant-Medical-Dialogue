@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         // console.log(body);
-        const {doctorId, doctorName, doctorSpeciality } = createDoctorValidator.parse(body);
+        const {doctorId, doctorName, doctorSpeciality, doctorAvailability } = createDoctorValidator.parse(body);
 
         const docCreate = await db.doctor.create({
             data: {
@@ -19,6 +19,13 @@ export async function POST(req: NextRequest) {
                         email: `${doctorName.toLowerCase().replace(/\s+/g, '.')}@example.com`,
                         password: "password123", // This should be hashed in production
                         role: UserRole.DOCTOR,
+                    }
+                },
+                availability: {
+                    create: {
+                        dayOfWeek: doctorAvailability.dayOfWeek,
+                        startTime: doctorAvailability.startTime,
+                        endTime: doctorAvailability.endTime
                     }
                 }
             }
