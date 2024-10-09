@@ -70,7 +70,7 @@ model Patient {
   appointments     Appointment[]
   lastVisitOn      DateTime?
   numberOfVisits   Int           @default(0)
-  chronicCondition String
+  chronicCondition String?
   nextVisitOn      DateTime?
   doctor           Doctor        @relation(fields: [doctorId], references: [id])
   doctorId         String
