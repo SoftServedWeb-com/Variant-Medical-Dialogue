@@ -20,7 +20,7 @@
 ```
 
 **Response**:
-- availability is only returned if `doctorPrefered` is true else it is null
+- `availability` is only returned if `doctorPrefered` is true, otherwise it is null
 ```json
 {
     "patient": {
@@ -29,8 +29,8 @@
         "email": "string",
         "phone": "string",
         "lastVisitOn": "string"
-    }
-    ,availability:{
+    },
+    "availability": {
         "id": "string",
         "dayOfWeek": "number",
         "startTime": "string",
@@ -53,7 +53,7 @@
 ```
 
 **Response**:
-- availability is only returned if `doctorPrefered` is true else it is null
+- `availability` is only returned if `doctorPrefered` is true, otherwise it is null
 ```json
 {
     "patient": {
