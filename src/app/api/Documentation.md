@@ -2,9 +2,9 @@
 
 ### Patient API
 
-#### POST /api/patient/check
+#### POST /api/patient/create
 
-**Description**: Check if a patient with the given ID exists in the database.
+**Description**: Create a new patient in the database.
 
 **Request Body**:
 ```json
@@ -20,4 +20,54 @@
 ```
 
 **Response**:
+```json
+{
+    "patient": {
+        "id": "string",
+        "name": "string",
+        "email": "string",
+        "phone": "string",
+        "lastVisitOn": "string"
+    }
+    ,availability:{
+        "id": "string",
+        "dayOfWeek": "number",
+        "startTime": "string",
+        "endTime": "string"
+    }
+}
+
+
+#### POST /api/patient/check
+
+**Description**: Check if a patient with the given ID exists in the database.
+
+**Request Body**:
+```json
+{
+    "patientId": "string",  
+    "doctorId": "string",
+    "doctorPrefered": "boolean"
+}
+```
+
+**Response**:
+```json
+{
+    "patient": {
+        "id": "string",
+        "name": "string",
+        "email": "string",
+        "phone": "string",
+        "lastVisitOn": "string"
+    },  
+    "availability": {
+        "id": "string",
+        "dayOfWeek": "number",
+        "startTime": "string",
+        "endTime": "string"
+    }
+}
+```
+
 
