@@ -71,3 +71,36 @@
 ```
 
 
+#### GET /api/doctor/all
+
+**Description**: Get all the doctors in the database.
+
+**Request Body**:
+```json
+{}
+```
+
+
+#### POST /api/doctor/create
+
+**Description**: Create a new doctor in the database.
+
+**Request Body**:
+```json
+{
+    "doctorId": "string",
+    "doctorName": "string",
+    "doctorSpeciality": "string"
+}   
+```
+
+**Response**:
+```json
+{
+    "doctor": {
+        "id": "string",
+        "name": "string",
+        "speciality": "string"
+    }
+}
+

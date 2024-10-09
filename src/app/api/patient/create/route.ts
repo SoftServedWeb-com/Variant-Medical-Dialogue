@@ -13,6 +13,8 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { patientId, patientName, patientEmail, patientPhone, patientAge, doctorPrefered, doctorId } = createPatientValidator.parse(body);
         
+        console.log(patientId, patientName, patientEmail, patientPhone, patientAge, doctorPrefered, doctorId);
+
         let patient = await db.patient.findUnique({
             where: { id: patientId },
             select: {

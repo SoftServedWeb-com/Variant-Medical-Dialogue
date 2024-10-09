@@ -23,8 +23,9 @@ export async function POST(req: NextRequest) {
             }
         });
 
+        console.log("Patient", patient);
         if (!patient) {
-            return NextResponse.json({ error: "Patient not found" }, { status: 404 });
+            return new Response(JSON.stringify({ error: "Patient not found" }), { status: 404 });
         }
 
         let doctorAvailability;
@@ -40,12 +41,10 @@ export async function POST(req: NextRequest) {
             doctorAvailability = null;
         }
 
-        // TODO: Implement logic to create an appointment
-        // This would typically go in a separate API endpoint
 
-        return NextResponse.json({ patient, availability: doctorAvailability }, { status: 200 });
+        return new Response(JSON.stringify({ patient, availability: doctorAvailability }), { status: 200 });
     } catch (error) {
         console.error('Error checking patient:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
     }
 }
