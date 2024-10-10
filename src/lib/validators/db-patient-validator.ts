@@ -5,9 +5,9 @@ export const createPatientValidator = z.object({
     patientName: z.string(),
     patientEmail: z.string(),
     patientPhone: z.string(),
-    patientAge: z.number(),
-    doctorPrefered: z.boolean(),
-    doctorId: z.string(),
+    DOB: z.string(),
+    doctorPrefered: z.boolean().optional().default(false),
+    doctorId: z.string().nullable(),
 
 }); 
 

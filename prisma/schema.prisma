@@ -8,8 +8,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -39,7 +37,7 @@ model User {
   email    String   @unique
   password String
   role     UserRole
-  doctor   Doctor?
+  doctor   Doctor? 
 }
 
 model Doctor {
@@ -68,13 +66,12 @@ model Patient {
   email            String
   phone            String
   dateOfBirth      DateTime
-  age              Int
   appointments     Appointment[]
   lastVisitOn      DateTime?
   numberOfVisits   Int           @default(0)
   chronicCondition String?
   nextVisitOn      DateTime?
-  doctor           Doctor?        @relation(fields: [doctorId], references: [id])
+  doctor           Doctor?       @relation(fields: [doctorId], references: [id])
   doctorId         String?
 }
 
@@ -90,7 +87,8 @@ model Appointment {
   date          DateTime
   duration      Int               @default(30) // Duration in minutes
   transcription Transcription?
-  icd10Codes    ICD10Code[]
+  icd10Codes    Json?
+  createdAt     DateTime          @default(now())
 }
 
 model Transcription {
@@ -99,12 +97,4 @@ model Transcription {
   appointmentId String      @unique
   content       String
   createdAt     DateTime    @default(now())
-}
-
-model ICD10Code {
-  code          String      @unique
-  description   String
-  severity      Severity
-  appointment   Appointment @relation(fields: [appointmentId], references: [id])
-  appointmentId String
 }

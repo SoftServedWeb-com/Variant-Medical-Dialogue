@@ -1,5 +1,6 @@
 'use client';
 import { transcription } from '@/lib/misc/dummy-data';
+import { useUser } from '@stackframe/stack';
 import { useState } from 'react';
 
 const availableModels = [
@@ -165,6 +166,8 @@ interface Result {
 }
 
 export default function DemoPage() {
+
+    useUser({ or: 'redirect' });
 
     const [results, setResults] = useState<Result[]>([]);
     const [isLoading, setIsLoading] = useState(false);

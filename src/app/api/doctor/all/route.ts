@@ -1,10 +1,23 @@
 // return all the doctors in the database
 
 import { db } from "@/db";
-import { NextRequest} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-    const doctors = await db.doctor.findMany();
-    console.log("doctors", doctors)
-    return new Response(JSON.stringify({ doctors }), { status: 200 });
+    try {
+        const doctors = await db.doctor.findMany({
+            select: {
+                id: true,
+                name: true,
+                speciality: true,
+            }
+        });
+        
+        console.log("Doctors fetched:", doctors.length);
+        
+        return NextResponse.json({ doctors }, { status: 200 });
+    } catch (error) {
+        console.error("Error fetching doctors:", error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    }
 }

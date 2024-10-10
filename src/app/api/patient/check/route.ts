@@ -19,7 +19,6 @@ export async function POST(req: NextRequest) {
                 email: true,
                 phone: true,
                 lastVisitOn: true,
-                doctor: true,
             }
         });
 

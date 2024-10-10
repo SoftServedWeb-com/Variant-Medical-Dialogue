@@ -1,19 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { Bell, Calendar, Users, Clock, Settings, Eye, Check, X, Clock as ClockIcon, Search, Upload, Download, Phone } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Switch } from "@/components/ui/switch"
-import { DatePicker } from '@/components/ui/date-picker'
-import { Appointment, AppointmentStatus, Patient, PatientHistory, Severity, severityColor, ICD10Code } from '@/lib/types'
+import { Appointment, AppointmentStatus, Patient, PatientHistory, Severity } from '@/lib/types'
 import AppointmentTab from './tabs/appointment-tab'
 import PatientsTab from './tabs/patients-tab'
 import Historytab from './tabs/history-tab'
@@ -22,6 +11,7 @@ import UpcomingTab from './tabs/upcoming-tab'
 
 
 export function DoctorDashboardComponent() {
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [appointments, setAppointments] = useState<Appointment[]>([
     {

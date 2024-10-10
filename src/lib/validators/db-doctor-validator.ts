@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const createDoctorValidator=z.object({
     doctorId: z.string(),
+    userId: z.string(),
     doctorName: z.string(),
     doctorSpeciality: z.string(),
     doctorAvailability: z.object({

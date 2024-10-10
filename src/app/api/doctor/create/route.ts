@@ -7,20 +7,25 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         // console.log(body);
-        const {doctorId, doctorName, doctorSpeciality, doctorAvailability } = createDoctorValidator.parse(body);
+        const {doctorId, doctorName, doctorSpeciality, doctorAvailability,userId } = createDoctorValidator.parse(body);
 
+        const checkDoctor = await db.doctor.findUnique({
+            where: {
+                id: doctorId
+            }
+        });
+
+        if(checkDoctor){
+            return new Response(JSON.stringify({ error: "Doctor ID already exists" }), { status: 400 });
+        }
+
+        // add a check, if user already exists, then update the doctor details, else create a new user and doctor
         const docCreate = await db.doctor.create({
             data: {
                 id: doctorId,
                 name: doctorName,
                 speciality: doctorSpeciality,
-                user: {
-                    create: {
-                        email: `${doctorName.toLowerCase().replace(/\s+/g, '.')}@example.com`,
-                        password: "password123", // This should be hashed in production
-                        role: UserRole.DOCTOR,
-                    }
-                },
+                userId:userId,
                 availability: {
                     create: {
                         dayOfWeek: doctorAvailability.dayOfWeek,
@@ -28,6 +33,13 @@ export async function POST(req: NextRequest) {
                         endTime: doctorAvailability.endTime
                     }
                 }
+            },
+            select:{
+                id: true,
+                name: true,
+                speciality: true,
+                availability: true,
+                user:true
             }
         });
 
@@ -41,3 +53,6 @@ export async function POST(req: NextRequest) {
         return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500 });
     }
 }
+
+
+
