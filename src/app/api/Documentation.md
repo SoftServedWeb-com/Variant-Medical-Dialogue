@@ -37,6 +37,7 @@
         "endTime": "string"
     }
 }
+```
 
 
 #### POST /api/patient/check
@@ -115,6 +116,7 @@
     }
 }
 
+```
 
 #### POST /api/doctor/update-availability
 
@@ -152,7 +154,8 @@
 **Request Body**:
 ```json
 {
-    "transcription": "string"
+    "transcription": "string",
+    "patientId":"string"
 }
 ```
 

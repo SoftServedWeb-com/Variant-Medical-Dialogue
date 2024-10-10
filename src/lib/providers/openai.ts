@@ -10,6 +10,6 @@ export const openAPI = new OpenAI({
 
 
 export const AIMLAPI = createOpenAI({
-    baseURL: 'https://api.aimlapi.com',
+    baseURL: 'https://api.aimlapi.com/v1',
     apiKey: process.env.OPENAI_API_KEY,
   });
