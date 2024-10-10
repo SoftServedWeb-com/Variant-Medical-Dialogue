@@ -25,6 +25,8 @@ import {
 import { toast } from "sonner";
 import Image from "next/image";
 import { db } from "@/db";
+import { createDoctor } from "@/app/actions/create-doctor";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 // Define the form schema using Zod
 const formSchema = z.object({
@@ -32,11 +34,11 @@ const formSchema = z.object({
     .string()
     .min(1, "Doctor ID is required")
     .max(50, "Doctor ID must be 50 characters or less"),
-  name: z
+  doctorName: z
     .string()
     .min(1, "Name is required")
     .max(100, "Name must be 100 characters or less"),
-  speciality: z.string().min(1, "Speciality is required"),
+  doctorSpeciality: z.string().min(1, "Speciality is required"),
 });
 
 // Specialities list (you can expand this as needed)
@@ -53,7 +55,7 @@ const specialities = [
   "Surgery",
 ];
 
-export default function DoctorOnboardingForm({userId}:{userId:string}) {
+export default function DoctorOnboardingForm({ userId }: { userId: string }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCustomSpeciality, setIsCustomSpeciality] = useState(false);
 
@@ -62,8 +64,8 @@ export default function DoctorOnboardingForm({userId}:{userId:string}) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       doctorId: "",
-      name: "",
-      speciality: "",
+      doctorName: "",
+      doctorSpeciality: "",
     },
   });
 
@@ -79,33 +81,41 @@ export default function DoctorOnboardingForm({userId}:{userId:string}) {
     //   setIsSubmitting(false);
     //   form.reset();
     // }, 2000);
+    console.log("form submit values :: ",values, userId)
 
-    try{
-        const result = fetch("/api/doctor/create",{
-            method:"POST",
-            body:JSON.stringify({...values,userId}),
-            headers:{
-                "Content-Type":"application/json"
-            }
-        })
-        const data = (await result).body
-        console.log(data);
+    try {
+      const result = await createDoctor(
+        userId,
+        values.doctorId,
+        values.doctorName,
+        values.doctorSpeciality,
+        {
+          dayOfWeek: 0,
+          startTime: "09:00",
+          endTime: "17:00",
+        }
+      );
+
+      if (result && result.error) {
+        toast.error(result.error);
+      } else if (result && result.success) {
         toast.success("Doctor onboarded successfully", {
-            description: `Welcome, Dr. ${values.name}!`,
-          });
-    }catch(error){
-        console.log(error);
-        toast.error("Failed to onboard doctor");
-    }finally{
-        setIsSubmitting(false);
+          description: `Welcome, Dr. ${values.doctorName}!`,
+        });
+        form.reset();
+        revalidatePath("/dashboard");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to onboard doctor");
+    } finally {
+      setIsSubmitting(false);
     }
-
-
   }
 
   return (
-    <div className=" flex md:flex-row flex-col justify-center items-center h-[40vh] md:h-screen w-[100%]">
-      <div className="w-1/2 h-screen relative">
+    <div className=" flex md:flex-row flex-col justify-center items-center h-screen w-full mb-2">
+      <div className="w-full md:w-1/2 h-[50vh] md:h-screen relative">
         <Image
           src="/12.jpeg"
           alt="background"
@@ -115,11 +125,13 @@ export default function DoctorOnboardingForm({userId}:{userId:string}) {
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
           {/* <Image src="/logo.png" alt="logo" width={100} height={100} /> */}
-          <h2 className="text-2xl font-semibold text-white mt-4">Doctor Onboarding</h2>
+          <h2 className="text-2xl font-semibold text-white mt-4">
+            Doctor Onboarding
+          </h2>
         </div>
       </div>
 
-      <div className="w-1/2 h-screen flex flex-col justify-center items-center ">
+      <div className="md:w-1/2 h-screen flex flex-col justify-center items-center ">
         <div className="max-w-lg mx-auto ">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -144,7 +156,7 @@ export default function DoctorOnboardingForm({userId}:{userId:string}) {
               />
               <FormField
                 control={form.control}
-                name="name"
+                name="doctorName"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Full Name</FormLabel>
@@ -157,7 +169,7 @@ export default function DoctorOnboardingForm({userId}:{userId:string}) {
               />
               <FormField
                 control={form.control}
-                name="speciality"
+                name="doctorSpeciality"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Speciality</FormLabel>
@@ -184,7 +196,9 @@ export default function DoctorOnboardingForm({userId}:{userId:string}) {
                               {speciality}
                             </SelectItem>
                           ))}
-                          <SelectItem value="custom">Enter custom speciality</SelectItem>
+                          <SelectItem value="custom">
+                            Enter custom speciality
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     ) : (

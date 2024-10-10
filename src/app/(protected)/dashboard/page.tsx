@@ -1,5 +1,4 @@
 import { DoctorDashboardComponent } from "@/app/(protected)/dashboard/components/doctor-dashboard";
-import { Calendar, Clock, Link, Users } from "lucide-react";
 import { stackServerApp } from "@/stack";
 import Navbar from "@/components/navbar";
 import { db } from "@/db";
@@ -7,50 +6,43 @@ import { UserRole } from "@prisma/client";
 import DoctorOnboardingForm from "./components/doctor-onboarding-form";
 
 export default async function DashboardPage() {
-  const user = await stackServerApp.getUser({ or: "redirect" });
-  // const createUser = await db.user.create({
-  //   data:{
-  //     id:user.id,
-  //     email:user.primaryEmail || `${user.displayName}@gmail.com`,
-  //     password:"123456",
-  //     role:UserRole.DOCTOR
-  //   }
-  // })
+  const authUser = await stackServerApp.getUser({ or: "redirect" });
 
-  // a check if the user has the doctor field active or not.
-  // The doctor ID is based on EHR(which is unique for each doctor.)
+  // Check if the user already exists in the database and include the doctor profile
+  // TODO check the stack-auth webhooks section to solve this issue.
 
+  let isUser = await db.user.findUnique({
+    where: { id: authUser.id,AND:{email:authUser.primaryEmail!}},
+    include:{doctor:true}
+  });
 
-  const firstLoginCheck = await db.user.findUnique({
-    where:{
-      id:user.id,
-      role:UserRole.DOCTOR
-    },
-    select:{
-      doctor:true
-    }
-  })
-  console.log("check for doctor",firstLoginCheck);
-  console.log(user.hasPassword);
+  // If the user doesn't exist, create a new user
+  let newUser;
+  if (!isUser) {
+    newUser = await db.user.create({
+      data: {
+        id: authUser.id,
+        email: authUser.primaryEmail || `${authUser.displayName}@gmail.com`,
+        password: `${authUser.id}@123`,
+        role: UserRole.DOCTOR
+      },
+      include: { doctor: true }
+    });
+  }
+  console.log(authUser.id)
 
-
-  // if this is null, then prompt the doctor to fill the form, which collects the doctor's name, speciality, and availability.
-  // !TODO : need admin approval in future, with a checkin in the EHR.
-  if(!firstLoginCheck?.doctor){
+  // If the user doesn't have a doctor profile, show the onboarding form
+  if (!newUser?.doctor && newUser?.role == UserRole.DOCTOR || !isUser?.doctor) {
     return (
-      <div className="">
-        <DoctorOnboardingForm userId={user.id}/>
+      <div>
+        <DoctorOnboardingForm userId={authUser.id} />
       </div>
-    )
+    );
   }
 
- 
   return (
     <div>
-      <div>
-        <Navbar />
-      </div>
-      {/* {user.hasPassword?<DoctorDashboardComponent />:"prompt for password"} */}
+      <Navbar />
       <DoctorDashboardComponent />
     </div>
   );

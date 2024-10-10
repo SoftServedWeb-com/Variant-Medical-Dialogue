@@ -39,7 +39,6 @@ export async function POST(req: NextRequest) {
                 name: true,
                 speciality: true,
                 availability: true,
-                user:true
             }
         });
 
