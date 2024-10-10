@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { createDoctorValidator } from "@/lib/validators/db-doctor";
+import { createDoctorValidator } from "@/lib/validators/db-doctor-validator";
 import { NextRequest } from "next/server";
 import { UserRole } from "@prisma/client";
 

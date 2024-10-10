@@ -1,7 +1,7 @@
 // Check if the patient exists in the DB and handle doctor preferences
 
 import { db } from "@/db";
-import { checkPatientValidator } from "@/lib/validators/db-patient";
+import { checkPatientValidator } from "@/lib/validators/db-patient-validator";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

@@ -5,7 +5,7 @@
 // return patient details.
 
 import { db } from "@/db";
-import { createPatientValidator } from "@/lib/validators/db-patient";
+import { createPatientValidator } from "@/lib/validators/db-patient-validator";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

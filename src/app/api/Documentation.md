@@ -140,3 +140,25 @@
     }
 }
 ```
+
+
+
+### Transcription API
+
+#### POST /api/transcription/process
+
+**Description**: Process the transcription and return the ICD-10 codes.
+
+**Request Body**:
+```json
+{
+    "transcription": "string"
+}
+```
+
+**Response**:
+```json
+{
+    "responses": "string"
+}
+

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/db";
-import { updateDoctorAvailabilityValidator } from "@/lib/validators/db-doctor";
+import { updateDoctorAvailabilityValidator } from "@/lib/validators/db-doctor-validator";
 
 export async function POST(req: NextRequest) {
     try {
