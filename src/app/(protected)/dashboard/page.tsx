@@ -46,7 +46,7 @@ export default async function DashboardPage() {
   return (
     <div>
       <Navbar />
-      {JSON.stringify(doctorId)}
+      {/* {JSON.stringify(doctorId)} */}
       <DoctorDashboardComponent doctorId={doctorId.id} />
     </div>
   );
