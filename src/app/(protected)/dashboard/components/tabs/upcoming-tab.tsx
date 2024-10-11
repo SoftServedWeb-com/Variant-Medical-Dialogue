@@ -37,7 +37,7 @@ export default function UpcomingTab({
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {appointments
-              .filter((a) => a.status === AppointmentStatus.CONFIRMED)
+              .filter((a) => a.status === AppointmentStatus.CONFIRMED && new Date(a.date) >= new Date())
               .map((appointment) => (
                 <tr key={appointment.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
