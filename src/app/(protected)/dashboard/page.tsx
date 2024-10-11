@@ -29,7 +29,7 @@ export default async function DashboardPage() {
       include: { doctor: true }
     });
   }
-  console.log(authUser.id)
+  // console.log(authUser.id)
 
   // If the user doesn't have a doctor profile, show the onboarding form
   if (!newUser?.doctor && newUser?.role == UserRole.DOCTOR || !isUser?.doctor) {
