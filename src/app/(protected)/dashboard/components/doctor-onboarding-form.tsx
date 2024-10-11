@@ -99,7 +99,7 @@ export default function DoctorOnboardingForm({ userId }: { userId: string }) {
       console.error(error);
     } finally {
       setIsSubmitting(false);
-      revalidatePath("/dashboard")
+      // revalidatePath("/dashboard")
     }
   }
 

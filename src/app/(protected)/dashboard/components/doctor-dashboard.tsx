@@ -7,16 +7,16 @@ import Historytab from './tabs/history-tab'
 import SettingsTab from './tabs/settings-tab'
 import UpcomingTab from './tabs/upcoming-tab'
 import { fetchAppointments } from '@/app/actions/fetch-appointments'
+import { fetchPatients } from "@/app/actions/fetch-patients";
 
+export async function DoctorDashboardComponent({doctorId}:{doctorId:string}) {
+	const appointments = await fetchAppointments(doctorId) as AppointmentWithPatient[];
+	const fetchedPatients = await fetchPatients(doctorId);
 
-export async function DoctorDashboardComponent({userId}:{userId:string}) {
-	const appointments = await fetchAppointments(userId) as AppointmentWithPatient[];
+	console.log("fetchedPatients :: ", fetchedPatients);
 
-	// console.log("appointments :: ",appointments)
-
-
-	// Extract unique patients from appointments
-	const patients: PatientData[] = Array.from(new Set(appointments.map(app => app.patient))).map(patient => {
+	// Transform fetched patients into PatientData format
+	const patients: PatientData[] = fetchedPatients.map(patient => {
 		const patientAppointments = appointments.filter(app => app.patientId === patient.id);
 		return {
 			id: patient.id,
@@ -28,7 +28,7 @@ export async function DoctorDashboardComponent({userId}:{userId:string}) {
 				severity: patientAppointments[0]?.severity || null,
 				numberOfVisits: patient.numberOfVisits,
 				condition: patientAppointments[0]?.condition || null,
-				nextVisitOn: patient.nextVisitOn ? patient.nextVisitOn.toISOString().split('T')[0] : null
+				nextVisitOn: patient.appointments[0]?.date ? patient.appointments[0].date.toISOString().split('T')[0] : null
 			},
 			medicalReport: "", // This field is not available in the current data
 			icd10Codes: (patientAppointments[0]?.icd10Codes as any[] || []).map(code => ({
@@ -37,10 +37,10 @@ export async function DoctorDashboardComponent({userId}:{userId:string}) {
 				severity: code.severity || '',
 				details: code.details || ''
 			})),
-			appointments: patientAppointments.map(app => ({
+			appointments: patient.appointments.map(app => ({
 				date: app.date.toISOString().split('T')[0],
 				time: app.date.toTimeString().split(' ')[0],
-				type: app.status
+				type: app.status as AppointmentStatus
 			}))
 		};
 	});
