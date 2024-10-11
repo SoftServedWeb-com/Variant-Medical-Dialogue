@@ -249,3 +249,23 @@ enum AppointmentStatus {
 
 
 
+#### POST /api/diagnosis-summary    
+
+**Description**: Generate a summary of the diagnosis and the transcription.
+
+**Request Body**:
+```json
+{
+    "patientId": "string",
+    "diagnosis": "string",
+    "transcript": "string"
+}
+```
+
+**Response**:
+```json
+{
+    "summary": "string"
+}
+```
+
