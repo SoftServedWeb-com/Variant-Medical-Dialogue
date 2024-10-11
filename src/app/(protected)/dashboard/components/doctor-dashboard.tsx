@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { AppointmentWithPatient } from '@/lib/types';
+import { AppointmentWithPatient, PatientData } from '@/lib/types';
 import { AppointmentStatus, Severity } from '@prisma/client';
 import AppointmentTab from './tabs/appointment-tab'
 import PatientsTab from './tabs/patients-tab'
@@ -8,18 +8,42 @@ import SettingsTab from './tabs/settings-tab'
 import UpcomingTab from './tabs/upcoming-tab'
 import { fetchAppointments } from '@/app/actions/fetch-appointments'
 
+
 export async function DoctorDashboardComponent({userId}:{userId:string}) {
 	const appointments = await fetchAppointments(userId) as AppointmentWithPatient[];
 
-	// console.log("appointments :: ",appointments)
+	console.log("appointments :: ",appointments)
 
 
 	// Extract unique patients from appointments
-	const patients = Array.from(new Set(appointments.map(app => app.patient))).map(patient => ({
-		...patient,
-		age: calculateAge(patient.dateOfBirth),
-		patientName: patient.name // Add patientName property
-	}));
+	const patients: PatientData[] = Array.from(new Set(appointments.map(app => app.patient))).map(patient => {
+		const patientAppointments = appointments.filter(app => app.patientId === patient.id);
+		return {
+			id: patient.id,
+			name: patient.name,
+			phoneNumber: patient.phone,
+			dateOfBirth: patient.dateOfBirth.toISOString().split('T')[0],
+			history: {
+				lastVisitOn: patient.lastVisitOn ? patient.lastVisitOn.toISOString().split('T')[0] : null,
+				severity: patientAppointments[0]?.severity || null,
+				numberOfVisits: patient.numberOfVisits,
+				condition: patientAppointments[0]?.condition || null,
+				nextVisitOn: patient.nextVisitOn ? patient.nextVisitOn.toISOString().split('T')[0] : null
+			},
+			medicalReport: "", // This field is not available in the current data
+			icd10Codes: (patientAppointments[0]?.icd10Codes as any[] || []).map(code => ({
+				code: code.code || '',
+				description: code.description || '',
+				severity: code.severity || '',
+				details: code.details || ''
+			})),
+			appointments: patientAppointments.map(app => ({
+				date: app.date.toISOString().split('T')[0],
+				time: app.date.toTimeString().split(' ')[0],
+				type: app.status
+			}))
+		};
+	});
 
 	// Create patient history from appointments
 	const patientHistory = appointments.map(app => ({

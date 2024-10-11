@@ -1,8 +1,8 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Severity, AppointmentStatus, Patient } from "@prisma/client";
-import { AppointmentWithPatient } from "@/lib/types"; // Import the new type
+import { Severity, AppointmentStatus } from "@prisma/client";
+import { AppointmentWithPatient, PatientData } from "@/lib/types"; // Import the new type
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, Upload } from "lucide-react";
 
@@ -168,7 +168,7 @@ export const appointmentColumns: ColumnDef<AppointmentWithPatient>[] = [
 ];
 
 
-export const patientColumns: ColumnDef<Patient>[] = [
+export const patientColumns: ColumnDef<PatientData>[] = [
   {
     accessorKey: "name",
     header: "Patient Name",
@@ -194,7 +194,7 @@ export const patientColumns: ColumnDef<Patient>[] = [
     accessorKey: "lastVisit",
     header: "Last Visit",
     cell: ({ row }) => (
-      <div className="text-sm text-gray-500">{row.original.lastVisitOn?.toLocaleDateString()}</div>
+      <div className="text-sm text-gray-500">{row.original.history.lastVisitOn}</div>
     ),
   },
   {
@@ -205,7 +205,7 @@ export const patientColumns: ColumnDef<Patient>[] = [
       const patient = row.original;
       return (
         <div className="flex space-x-2">
-          {/* <PatientProfileDialog patientData={patient} /> */}
+          <PatientProfileDialog patientData={patient} />
           {/* {JSON.stringify(patient)} */}
           <Button variant="outline" size="sm">
             <Upload className="h-4 w-4 mr-2" />

@@ -48,6 +48,33 @@ export type DoctorAvailability = {
     endTime: string
 }
 
+// Define the PatientData type
+export type PatientData = {
+    id: string;
+    name: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+    history: {
+        lastVisitOn: string | null;
+        severity: Severity | null;
+        numberOfVisits: number;
+        condition: string | null;
+        nextVisitOn: string | null;
+    };
+    medicalReport: string | null;
+    icd10Codes: Array<{
+        code: string;
+        description: string;
+        severity: string;
+        details: string;
+    }>;
+    appointments: Array<{
+        date: string;
+        time: string;
+        type: AppointmentStatus;
+    }>;
+};
+
 // export interface Patient {
 //     id: string
 //     patientName: string

@@ -11,35 +11,9 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Calendar, Clock, Download, Edit, FileText, Phone, PlusCircle, Info } from 'lucide-react'
-import { Patient } from '@prisma/client'
+import { PatientData } from '@/lib/types'
 
-// Mock data (replace with actual data fetching in a real application)
-const patient = {
-  id: "P12345",
-  name: "John Doe",
-  phoneNumber: "+1 (555) 123-4567",
-  dateOfBirth: "1980-05-15",
-  history: {
-    lastVisitOn: "2024-09-15",
-    severity: "Severe",
-    numberOfVisits: 5,
-    condition: "Acute Myocardial Infarction",
-    nextVisitOn: "2024-10-10"
-  },
-  medicalReport: "Patient presents with severe chest pain and shortness of breath. ECG shows ST-segment elevation in leads V1-V4. Blood tests reveal elevated troponin levels. Patient has a history of hypertension and type 2 diabetes. Immediate cardiac catheterization was performed, revealing a 90% occlusion of the left anterior descending artery. Angioplasty and stent placement were successful.",
-  icd10Codes: [
-    { code: "I21.0", description: "ST elevation (STEMI) myocardial infarction of anterior wall", severity: "Severe", details: "Acute myocardial infarction of anterior wall with ST elevation on ECG" },
-    { code: "I10", description: "Essential (primary) hypertension", severity: "Moderate", details: "High blood pressure with no identifiable cause" },
-    { code: "E11.9", description: "Type 2 diabetes mellitus without complications", severity: "Moderate", details: "Diabetes characterized by high blood sugar levels due to insulin resistance" }
-  ],
-  appointments: [
-    { date: "2024-10-10", time: "10:00 AM", type: "Follow-up" },
-    { date: "2024-09-15", time: "2:00 PM", type: "Emergency" },
-    { date: "2024-08-01", time: "11:30 AM", type: "Regular Check-up" }
-  ]
-}
-
-export function PatientProfileDialog({patientData}:{patientData?:Patient}) {
+export function PatientProfileDialog({patientData}: {patientData?: PatientData}) {
   const [isOpen, setIsOpen] = useState(false)
   const [notes, setNotes] = useState("")
 
@@ -50,6 +24,10 @@ export function PatientProfileDialog({patientData}:{patientData?:Patient}) {
       case 'severe': return 'bg-red-100 text-red-800'
       default: return 'bg-gray-100 text-gray-800'
     }
+  }
+
+  if (!patientData) {
+    return null; // Or render a placeholder/error message
   }
 
   return (
@@ -64,14 +42,13 @@ export function PatientProfileDialog({patientData}:{patientData?:Patient}) {
         <ScrollArea className="flex-grow">
           <div className="space-y-6 p-6">
             {/* Header Section */}
-            {JSON.stringify(patientData)}
             <div className="flex items-center space-x-2">
               <Avatar className="w-10 h-10">
-                <AvatarFallback>{patient.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                <AvatarFallback>{patientData.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
               </Avatar>
               <div>
-                <h2 className="text-sm font-semibold">{patient.name}</h2>
-                <p className="text-xs text-gray-500">{patient.id} | {patient.dateOfBirth}</p>
+                <h2 className="text-sm font-semibold">{patientData.name}</h2>
+                <p className="text-xs text-gray-500">{patientData.id} | {patientData.dateOfBirth}</p>
               </div>
             </div>
 
@@ -92,13 +69,14 @@ export function PatientProfileDialog({patientData}:{patientData?:Patient}) {
                     <CardContent>
                       <ScrollArea className="h-[300px]">
                         <ul className="space-y-4 pr-4">
-                          {patient.icd10Codes.map((code, index) => (
+                          {patientData.icd10Codes.map((code, index) => (
                             <li key={index} className="bg-muted p-4 rounded-lg">
                               <div className="flex items-center justify-between mb-2">
                                 <span className="font-mono text-lg font-bold">{code.code}</span>
                                 <Badge className={severityColor(code.severity)}>{code.severity}</Badge>
                               </div>
                               <p className="text-sm mb-2">{code.description}</p>
+                              {code.details && <p className="text-xs text-gray-600">{code.details}</p>}
                             </li>
                           ))}
                         </ul>
@@ -117,23 +95,23 @@ export function PatientProfileDialog({patientData}:{patientData?:Patient}) {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label>Last Visit</Label>
-                      <p>{patient.history.lastVisitOn}</p>
+                      <p>{patientData.history.lastVisitOn || 'N/A'}</p>
                     </div>
                     <div>
                       <Label>Severity</Label>
-                      <Badge className={severityColor(patient.history.severity)}>{patient.history.severity}</Badge>
+                      <Badge className={severityColor(patientData.history.severity || '')}>{patientData.history.severity || 'N/A'}</Badge>
                     </div>
                     <div>
                       <Label>Number of Visits</Label>
-                      <p>{patient.history.numberOfVisits}</p>
+                      <p>{patientData.history.numberOfVisits}</p>
                     </div>
                     <div>
                       <Label>Condition</Label>
-                      <p>{patient.history.condition}</p>
+                      <p>{patientData.history.condition || 'N/A'}</p>
                     </div>
                     <div>
                       <Label>Next Visit</Label>
-                      <p>{patient.history.nextVisitOn}</p>
+                      <p>{patientData.history.nextVisitOn || 'N/A'}</p>
                     </div>
                   </div>
                 </AccordionContent>
@@ -145,7 +123,7 @@ export function PatientProfileDialog({patientData}:{patientData?:Patient}) {
               <AccordionItem value="medical-report">
                 <AccordionTrigger>Medical Report</AccordionTrigger>
                 <AccordionContent>
-                  <p className="mb-4">{patient.medicalReport}</p>
+                  <p className="mb-4">{patientData.medicalReport || 'No medical report available.'}</p>
                   <Textarea
                     placeholder="Add additional notes here..."
                     value={notes}
@@ -167,7 +145,7 @@ export function PatientProfileDialog({patientData}:{patientData?:Patient}) {
                       <TabsTrigger value="past">Past</TabsTrigger>
                     </TabsList>
                     <TabsContent value="upcoming">
-                      {patient.appointments.filter(a => new Date(a.date) >= new Date()).map((appointment, index) => (
+                      {patientData.appointments.filter(a => new Date(a.date) >= new Date()).map((appointment, index) => (
                         <div key={index} className="flex items-center justify-between py-2">
                           <div>
                             <p className="font-semibold">{appointment.type}</p>
@@ -181,7 +159,7 @@ export function PatientProfileDialog({patientData}:{patientData?:Patient}) {
                       ))}
                     </TabsContent>
                     <TabsContent value="past">
-                      {patient.appointments.filter(a => new Date(a.date) < new Date()).map((appointment, index) => (
+                      {patientData.appointments.filter(a => new Date(a.date) < new Date()).map((appointment, index) => (
                         <div key={index} className="flex items-center justify-between py-2">
                           <div>
                             <p className="font-semibold">{appointment.type}</p>
