@@ -41,16 +41,3 @@ export async function POST(req: NextRequest) {
     }
 }
 
-// export async function POST(request: Request) {
-// 	try {
-// 		const body = await request.json();
-// 		// Your appointment creation logic here
-// 		const newAppointment = await db.appointment.create({
-// 			data: body,
-// 		});
-// 		return new Response(JSON.stringify(newAppointment), { status: 200 });
-// 	} catch (error) {
-// 		console.error('Error creating appointment:', error);
-// 		return new Response(JSON.stringify({ error: 'Error creating appointment' }), { status: 500 });
-// 	}
-// }
