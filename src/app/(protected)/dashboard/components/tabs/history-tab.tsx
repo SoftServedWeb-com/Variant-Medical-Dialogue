@@ -30,27 +30,39 @@ export default function Historytab({history}:{history:PatientHistory[]}){
         </div>
 
         <div className="bg-white shadow-md rounded-lg p-6 space-y-4">
-          <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
-            <div>
-              <h3 className="font-semibold text-red-800">Severe Case: John Doe</h3>
-              <p className="text-sm text-red-600">Acute Myocardial Infarction - 2024-09-15</p>
+          {history.map((item, index) => (
+            <div key={index} className={`flex items-center justify-between p-4 ${
+              item.severity === 'SEVERE' ? 'bg-red-50' :
+              item.severity === 'MODERATE' ? 'bg-yellow-50' :
+              'bg-gray-50'
+            } rounded-lg`}>
+              <div>
+                <h3 className={`font-semibold ${
+                  item.severity === 'SEVERE' ? 'text-red-800' :
+                  item.severity === 'MODERATE' ? 'text-yellow-800' :
+                  ''
+                }`}>
+                  {item.severity === 'SEVERE' ? 'Severe Case: ' :
+                   item.severity === 'MODERATE' ? 'Moderate Case: ' :
+                   'Appointment: '}
+                </h3>
+                <p className={`text-sm ${
+                  item.severity === 'SEVERE' ? 'text-red-600' :
+                  item.severity === 'MODERATE' ? 'text-yellow-600' :
+                  'text-gray-600'
+                }`}>
+                  {item.condition} - {new Date(item.lastVisitOn).toLocaleDateString()}
+                </p>
+                <p className="text-xs text-gray-500">
+                  Patient ID: {item.patientId} | Visits: {item.numberOfVisits} | Next Visit: {new Date(item.nextVisitOn).toLocaleDateString()}
+                </p>
+              </div>
+              <Button variant="outline" size="sm">
+                <Download className="h-4 w-4 mr-2" />
+                Download Report
+              </Button>
             </div>
-            <Button variant="outline" size="sm">
-              <Download className="h-4 w-4 mr-2" />
-              Download Report
-            </Button>
-          </div>
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-            <div>
-              <h3 className="font-semibold">Appointment: Jane Smith</h3>
-              <p className="text-sm text-gray-600">Follow-up Consultation - 2024-09-20</p>
-            </div>
-            <Button variant="outline" size="sm">
-              <Download className="h-4 w-4 mr-2" />
-              Download Transcription
-            </Button>
-          </div>
-          {/* Add more history items here */}
+          ))}
         </div>
       </div>
     )

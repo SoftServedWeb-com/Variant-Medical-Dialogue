@@ -12,7 +12,7 @@ import { fetchAppointments } from '@/app/actions/fetch-appointments'
 export async function DoctorDashboardComponent({userId}:{userId:string}) {
 	const appointments = await fetchAppointments(userId) as AppointmentWithPatient[];
 
-	console.log("appointments :: ",appointments)
+	// console.log("appointments :: ",appointments)
 
 
 	// Extract unique patients from appointments

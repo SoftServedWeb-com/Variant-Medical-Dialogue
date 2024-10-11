@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Severity, AppointmentStatus } from "@prisma/client";
 import { AppointmentWithPatient, PatientData } from "@/lib/types"; // Import the new type
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal, Upload } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal, Sparkle, Upload } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -211,6 +211,9 @@ export const patientColumns: ColumnDef<PatientData>[] = [
             <Upload className="h-4 w-4 mr-2" />
             Upload Report
           </Button>
+          <Button variant="outline" size="sm"> 
+            <Sparkle className="h-4 w-4 mr-2" />  
+             Chat</Button>
         </div>
       );
     },
