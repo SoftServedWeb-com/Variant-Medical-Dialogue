@@ -12,6 +12,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Calendar, Clock, Download, Edit, FileText, Phone, PlusCircle, Info } from 'lucide-react'
 import { PatientData } from '@/lib/types'
+import { saveAs } from 'file-saver'
 
 export function PatientProfileDialog({patientData}: {patientData?: PatientData}) {
   const [isOpen, setIsOpen] = useState(false)
@@ -29,6 +30,40 @@ export function PatientProfileDialog({patientData}: {patientData?: PatientData})
   if (!patientData) {
     return null; // Or render a placeholder/error message
   }
+
+  const generateReport = () => {
+    if (!patientData) return;
+
+                const report = `
+            Patient Report
+
+            Name: ${patientData.name}
+            ID: ${patientData.id}
+            Date of Birth: ${patientData.dateOfBirth}
+
+            ICD-10 Codes:
+            ${patientData.icd10Codes.map(code => `- ${code.code}: ${code.description} (Severity: ${code.severity})`).join('\n')}
+
+            Patient History:
+            Last Visit: ${patientData.history.lastVisitOn || 'N/A'}
+            Severity: ${patientData.history.severity || 'N/A'}
+            Number of Visits: ${patientData.history.numberOfVisits}
+            Condition: ${patientData.history.condition || 'N/A'}
+            Next Visit: ${patientData.history.nextVisitOn || 'N/A'}
+
+            Medical Report:
+            ${patientData.medicalReport || 'No medical report available.'}
+
+            Additional Notes:
+            ${notes}
+
+            Appointments:
+            ${patientData.appointments.map(app => `- ${app.type} on ${app.date} at ${app.time}`).join('\n')}
+                `.trim();
+
+                const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+                saveAs(blob, `${patientData.name.replace(/\s+/g, '_')}_report.txt`);
+              };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -179,11 +214,7 @@ export function PatientProfileDialog({patientData}: {patientData?: PatientData})
             <Edit className="w-4 h-4 mr-2" />
             Edit Patient Details
           </Button>
-          <Button variant="outline" className="w-full sm:w-auto">
-            <PlusCircle className="w-4 h-4 mr-2" />
-            Add New Medical Note
-          </Button>
-          <Button variant="outline" className="w-full sm:w-auto">
+          <Button variant="outline" className="w-full sm:w-auto" onClick={generateReport}>
             <Download className="w-4 h-4 mr-2" />
             Download Report
           </Button>
