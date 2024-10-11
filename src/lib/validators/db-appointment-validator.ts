@@ -16,25 +16,25 @@ export const dbAppointmentValidator = z.object({
 })
 
 // Example dummy data
-const dummyAppointmentData = {
-    patientId: "PAT123",
-    doctorId: "DOC456",
-    appointmentTime: "2023-06-15T10:30:00Z",
-    condition: "Routine checkup",
-    status: AppointmentStatus.PENDING,
-    severity: Severity.LOW,
-    ICD10Codes: [
-        {
-            code: "Z00.00",
-            description: "Encounter for general adult medical examination without abnormal findings",
-            severity: "Low"
-        },
-        {
-            code: "Z71.89",
-            description: "Other specified counseling",
-            severity: "Low"
-        }
-    ]
-}
+// const dummyAppointmentData = {
+//     patientId: "PAT123",
+//     doctorId: "DOC456",
+//     appointmentTime: "2023-06-15T10:30:00Z",
+//     condition: "Routine checkup",
+//     status: AppointmentStatus.PENDING,
+//     severity: Severity.LOW,
+//     ICD10Codes: [
+//         {
+//             code: "Z00.00",
+//             description: "Encounter for general adult medical examination without abnormal findings",
+//             severity: "Low"
+//         },
+//         {
+//             code: "Z71.89",
+//             description: "Other specified counseling",
+//             severity: "Low"
+//         }
+//     ]
+// }
 
 export type dbAppointmentValidator = z.infer<typeof dbAppointmentValidator>;
