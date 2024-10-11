@@ -1,8 +1,9 @@
 import { db } from "@/db";
 import { dbAppointmentValidator } from "@/lib/validators/db-appointment-validator";
 import { AppointmentStatus, Severity } from "@prisma/client";
+import { NextRequest } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         const { patientId, doctorId, appointmentDate, ICD10Codes, condition, severity, status } = dbAppointmentValidator.parse(body);
