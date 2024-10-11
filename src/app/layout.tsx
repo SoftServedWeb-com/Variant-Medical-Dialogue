@@ -17,7 +17,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Medical System",
+  title: "Medi-Flow",
   description: "Developed by Soft Served Web",
 };
 
