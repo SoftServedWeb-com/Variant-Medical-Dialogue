@@ -1,3 +1,5 @@
+import { AppointmentStatus, Severity } from "@prisma/client";
+
 export const severityColor = (severity: Severity) => {
     switch (severity) {
       case Severity.LOW: return 'bg-gray-50 text-green-600'
@@ -18,19 +20,6 @@ export const statusColor = (status: AppointmentStatus) => {
     }
   }
 
-export enum Severity {
-    LOW = "LOW",
-    MODERATE = "MODERATE",
-    SEVERE = "SEVERE",
-    CRITICAL = "CRITICAL"
-}
-
-export enum AppointmentStatus {
-    PENDING = "PENDING",
-    CONFIRMED = "CONFIRMED",
-    RESCHEDULED = "RESCHEDULED",
-    REJECTED = "REJECTED"
-}
 
 export enum UserRole {
     DOCTOR = "DOCTOR",
@@ -59,7 +48,7 @@ export type DoctorAvailability = {
     endTime: string
 }
 
-export type Patient = {
+export interface Patient {
     id: string
     patientName: string
     age: number
@@ -74,18 +63,21 @@ export type Patient = {
     nextVisitOn?: Date
 }
 
-export type Appointment = {
-    id: string
-    patientId: string
-    patientName: string // Add this line
-    doctorId: string
-    condition: string
-    severity: Severity
-    status: AppointmentStatus
-    date: Date
-    duration: number
-    transcription?: Transcription
-    icd10Codes: ICD10Code[]
+export interface Appointment {
+    id: string;
+    patientId: string;
+    doctorId: string;
+    condition: string;
+    severity: Severity;
+    status: AppointmentStatus;
+    date: Date;
+    duration: number;
+    icd10Codes: any; // Replace 'any' with a more specific type if possible
+    createdAt: Date;
+    patient: {
+        name: string;
+        // Include other patient properties as needed
+    };
 }
 
 export type Transcription = {
@@ -103,7 +95,7 @@ export type ICD10Code = {
     appointmentId: string
 }
 
-export type PatientHistory = {
+export interface PatientHistory {
     id: string
     patientId: string
     lastVisitOn: Date
@@ -113,5 +105,19 @@ export type PatientHistory = {
     nextVisitOn: Date
 }
 
+export type AppointmentWithPatient = Omit<Appointment, "patient"> & {
+  patient: {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    dateOfBirth: Date;
+    lastVisitOn: Date | null;
+    numberOfVisits: number;
+    chronicCondition: string | null;
+    nextVisitOn: Date | null;
+    doctorId: string;
+  };
+};
 
 

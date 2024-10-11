@@ -1,14 +1,8 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import {
-  Appointment,
-  AppointmentStatus,
-  Patient,
-  Severity,
-  severityColor,
-  statusColor,
-} from "@/lib/types";
+import { Severity, AppointmentStatus } from "@prisma/client";
+import { AppointmentWithPatient } from "@/lib/types"; // Import the new type
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, Upload } from "lucide-react";
 
@@ -24,8 +18,10 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { PatientProfileDialog } from "./patient-dialog-box";
+import { severityColor, statusColor } from "@/lib/types";
 
-export const appointmentColumns: ColumnDef<Appointment>[] = [
+// Change the type here to AppointmentWithPatient
+export const appointmentColumns: ColumnDef<AppointmentWithPatient>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -83,7 +79,7 @@ export const appointmentColumns: ColumnDef<Appointment>[] = [
     },
     cell: ({ row }) => (
       <div className="text-sm font-medium text-gray-900">
-        {row.getValue("patientName")}
+        {row.original.patient.name}
       </div>
     ),
   },
@@ -171,20 +167,41 @@ export const appointmentColumns: ColumnDef<Appointment>[] = [
   },
 ];
 
+// Update the Patient type to match your Prisma schema
+type Patient = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  dateOfBirth: Date;
+  lastVisitOn: Date | null;
+  numberOfVisits: number;
+  chronicCondition: string | null;
+  nextVisitOn: Date | null;
+  doctorId: string;
+};
+
 export const patientColumns: ColumnDef<Patient>[] = [
   {
-    accessorKey: "patientName",
+    accessorKey: "name",
     header: "Patient Name",
     cell: ({ row }) => (
-      <div className="text-sm  text-gray-900">{row.getValue("patientName")}</div>
+      <div className="text-sm text-gray-900">{row.getValue("name")}</div>
     ),
   },
   {
     accessorKey: "age",
     header: "Age",
-    cell: ({ row }) => (
-      <div className="text-sm text-gray-500">{row.original.age}</div>
-    ),
+    cell: ({ row }) => {
+      const dob = new Date(row.original.dateOfBirth);
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const monthDiff = today.getMonth() - dob.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+      return <div className="text-sm text-gray-500">{age}</div>;
+    },
   },
   {
     accessorKey: "lastVisit",
@@ -201,7 +218,7 @@ export const patientColumns: ColumnDef<Patient>[] = [
       const patient = row.original;
       return (
         <div className="flex space-x-2">
-          <PatientProfileDialog patientData={patient} />
+          {/* <PatientProfileDialog patientData={patient} /> */}
           {/* {JSON.stringify(patient)} */}
           <Button variant="outline" size="sm">
             <Upload className="h-4 w-4 mr-2" />

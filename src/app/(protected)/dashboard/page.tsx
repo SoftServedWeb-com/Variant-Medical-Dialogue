@@ -43,7 +43,7 @@ export default async function DashboardPage() {
   return (
     <div>
       <Navbar />
-      <DoctorDashboardComponent />
+      <DoctorDashboardComponent userId={newUser?.id!} />
     </div>
   );
 }

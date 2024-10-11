@@ -111,6 +111,7 @@ export default function DoctorOnboardingForm({ userId }: { userId: string }) {
     } finally {
       setIsSubmitting(false);
     }
+    revalidatePath("/dashboard")
   }
 
   return (

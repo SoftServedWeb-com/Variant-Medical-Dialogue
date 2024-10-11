@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from "react";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
@@ -7,23 +9,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Appointment,
-  AppointmentStatus,
-  Severity,
-  severityColor,
-  statusColor,
-} from "@/lib/types";
+  // import {
+  //   Appointment,
+  //   AppointmentStatus,
+  //   Severity,
+  //   severityColor,
+  //   statusColor,
+  // } from "@/lib/types";
 
 import { DataTable } from "../data-table";
 import { appointmentColumns } from "../columns";
+import { AppointmentWithPatient } from "@/lib/types"; // Import the new type
+import { AppointmentStatus, Severity } from "@prisma/client";
 
 export default function AppointmentTab({
   appointments,
   setAppointments,
 }: {
-  appointments: Appointment[];
-  setAppointments: (appointments: Appointment[]) => void;
+  appointments: AppointmentWithPatient[];
+  setAppointments?: (appointments: AppointmentWithPatient[]) => void;
 }) {
   const [statusFilter, setStatusFilter] = useState<AppointmentStatus | "all">(
     "all"
@@ -31,26 +35,30 @@ export default function AppointmentTab({
   const [severityFilter, setSeverityFilter] = useState<Severity | "all">("all");
   const [dateFilter, setDateFilter] = useState<Date | null>(null);
 
-  const handleAppointmentAction = (
-    id: string,
-    action: "Confirm" | "Reschedule" | "Reject"
-  ) => {
-    setAppointments(
-      appointments.map((appointment) =>
-        appointment.id === id
-          ? {
-              ...appointment,
-              status:
-                action === "Confirm"
-                  ? AppointmentStatus.CONFIRMED
-                  : action === "Reschedule"
-                  ? AppointmentStatus.RESCHEDULED
-                  : AppointmentStatus.REJECTED,
-            }
-          : appointment
-      )
-    );
-  };
+  //TODO: Implement appointment actions, FUTURE
+  // const handleAppointmentAction = (
+  //   id: string,
+  //   action: "Confirm" | "Reschedule" | "Reject"
+  // ) => {
+  //   setAppointments(
+  //     appointments.map((appointment) =>
+  //       appointment.id === id
+  //         ? {
+  //             ...appointment,
+  //             status:
+  //               action === "Confirm"
+  //                 ? AppointmentStatus.CONFIRMED
+  //                 : action === "Reschedule"
+  //                 ? AppointmentStatus.RESCHEDULED
+  //                 : AppointmentStatus.REJECTED,
+  //           }
+  //         : appointment
+  //     )
+  //   );
+  // };
+
+
+console.log(appointments)
 
   const filteredAppointments = appointments.filter((appointment) => {
     if (statusFilter !== "all" && appointment.status !== statusFilter)

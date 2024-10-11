@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 
 import { Badge } from "@/components/ui/badge";
-import { Appointment, AppointmentStatus, severityColor } from "@/lib/types";
 import { Eye } from "lucide-react";
+import { Appointment, AppointmentStatus } from "@prisma/client";
+import { severityColor } from "@/lib/types";
 
 export default function UpcomingTab({
   appointments,
