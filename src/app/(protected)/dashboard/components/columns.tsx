@@ -60,7 +60,7 @@ export const appointmentColumns: ColumnDef<AppointmentWithPatient>[] = [
     },
     cell: ({ row }) => (
       <div className="text-sm font-medium text-gray-900">
-        {JSON.stringify(row.index)}
+        {/* {JSON.stringify(row.index)} */}
         {row.getValue("id")}
       </div>
     ),
@@ -178,6 +178,26 @@ export const appointmentColumns: ColumnDef<AppointmentWithPatient>[] = [
 
 
 export const patientColumns: ColumnDef<PatientData>[] = [
+  {
+    accessorKey: "id",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Patient ID
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-sm font-medium text-gray-900">
+        {/* {JSON.stringify(row.index)} */}
+        {row.getValue("id")}
+      </div>
+    ),
+  },
   {
     accessorKey: "name",
     header: "Patient Name",
