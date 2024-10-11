@@ -1,29 +1,14 @@
+
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { Download, Search } from "lucide-react"
 import { PatientHistory } from "@/lib/types";
-import { saveAs } from 'file-saver';
 
 export default function Historytab({history}:{history:PatientHistory[]}){
 
-  
 
-  const generateReport = (item: PatientHistory) => {
-    const report = `
-Patient History Report
 
-Patient ID: ${item.patientId}
-Condition: ${item.condition}
-Severity: ${item.severity}
-Last Visit: ${new Date(item.lastVisitOn).toLocaleDateString()}
-Number of Visits: ${item.numberOfVisits}
-Next Visit: ${new Date(item.nextVisitOn).toLocaleDateString()}
-    `.trim();
-
-    const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
-    saveAs(blob, `patient_${item.patientId}_history_report.txt`);
-  };
 
   return (
     <div className="space-y-4">
@@ -78,8 +63,8 @@ Next Visit: ${new Date(item.nextVisitOn).toLocaleDateString()}
                 Patient ID: {item.patientId} | Visits: {item.numberOfVisits} | Next Visit: {new Date(item.nextVisitOn).toLocaleDateString()}
               </p>
             </div>
-            <Button variant="outline" size="sm" onClick={() => generateReport(item)}>
-              <Download className="h-4 w-4 mr-2" />
+            <Button variant="outline" size="sm">
+              <Download className="h-4 w-4 mr-2"  />
               Download Report
             </Button>
           </div>
