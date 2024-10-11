@@ -52,7 +52,7 @@ export async function DoctorDashboardComponent({userId}:{userId:string}) {
 								<UpcomingTab appointments={appointments} />
 							</TabsContent>
 							<TabsContent value="patients">
-								{/* <PatientsTab patients={patients} /> */}
+								<PatientsTab patients={patients} />
 							</TabsContent>
 							<TabsContent value="history">
 								<Historytab history={patientHistory}/>

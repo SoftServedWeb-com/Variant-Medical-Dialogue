@@ -11,7 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Calendar, Clock, Download, Edit, FileText, Phone, PlusCircle, Info } from 'lucide-react'
-import { Patient } from '@/lib/types'
+import { Patient } from '@prisma/client'
 
 // Mock data (replace with actual data fetching in a real application)
 const patient = {

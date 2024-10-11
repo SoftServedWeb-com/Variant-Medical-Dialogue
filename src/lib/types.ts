@@ -1,4 +1,4 @@
-import { AppointmentStatus, Severity } from "@prisma/client";
+import { Appointment, AppointmentStatus, Patient, Severity } from "@prisma/client";
 
 export const severityColor = (severity: Severity) => {
     switch (severity) {
@@ -48,37 +48,37 @@ export type DoctorAvailability = {
     endTime: string
 }
 
-export interface Patient {
-    id: string
-    patientName: string
-    age: number
-    email: string
-    phone: string
-    dateOfBirth: Date
-    doctorId: string
+// export interface Patient {
+//     id: string
+//     patientName: string
+//     age: number
+//     email: string
+//     phone: string
+//     dateOfBirth: Date
+//     doctorId: string
  
-    lastVisitOn: Date
-    numberOfVisits: number
-    chronicCondition: string
-    nextVisitOn?: Date
-}
+//     lastVisitOn: Date
+//     numberOfVisits: number
+//     chronicCondition: string
+//     nextVisitOn?: Date
+// }
 
-export interface Appointment {
-    id: string;
-    patientId: string;
-    doctorId: string;
-    condition: string;
-    severity: Severity;
-    status: AppointmentStatus;
-    date: Date;
-    duration: number;
-    icd10Codes: any; // Replace 'any' with a more specific type if possible
-    createdAt: Date;
-    patient: {
-        name: string;
-        // Include other patient properties as needed
-    };
-}
+// export interface Appointment {
+//     id: string;
+//     patientId: string;
+//     doctorId: string;
+//     condition: string;
+//     severity: Severity;
+//     status: AppointmentStatus;
+//     date: Date;
+//     duration: number;
+//     icd10Codes: any; // Replace 'any' with a more specific type if possible
+//     createdAt: Date;
+//     patient: {
+//         name: string;
+//         // Include other patient properties as needed
+//     };
+// }
 
 export type Transcription = {
     id: string
@@ -105,19 +105,7 @@ export interface PatientHistory {
     nextVisitOn: Date
 }
 
-export type AppointmentWithPatient = Omit<Appointment, "patient"> & {
-  patient: {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    dateOfBirth: Date;
-    lastVisitOn: Date | null;
-    numberOfVisits: number;
-    chronicCondition: string | null;
-    nextVisitOn: Date | null;
-    doctorId: string;
-  };
+export type AppointmentWithPatient = Omit<Appointment, 'patient'> & {
+    patient: Patient;
 };
-
 

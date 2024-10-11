@@ -2,13 +2,14 @@ import { Button } from "@/components/ui/button";
 
 import { Badge } from "@/components/ui/badge";
 import { Eye } from "lucide-react";
-import { Appointment, AppointmentStatus } from "@prisma/client";
+import { AppointmentStatus } from "@prisma/client";
 import { severityColor } from "@/lib/types";
 
+import { AppointmentWithPatient } from "@/lib/types";
 export default function UpcomingTab({
   appointments,
 }: {
-  appointments: Appointment[];
+  appointments: AppointmentWithPatient[];
 }) {
   return (
     <div className="mt-8">
@@ -41,7 +42,7 @@ export default function UpcomingTab({
                 <tr key={appointment.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
-                      {appointment.patientName}
+                      {appointment.patient.name}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">

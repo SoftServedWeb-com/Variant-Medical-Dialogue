@@ -1,7 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Severity, AppointmentStatus } from "@prisma/client";
+import { Severity, AppointmentStatus, Patient } from "@prisma/client";
 import { AppointmentWithPatient } from "@/lib/types"; // Import the new type
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, Upload } from "lucide-react";
@@ -167,19 +167,6 @@ export const appointmentColumns: ColumnDef<AppointmentWithPatient>[] = [
   },
 ];
 
-// Update the Patient type to match your Prisma schema
-type Patient = {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  dateOfBirth: Date;
-  lastVisitOn: Date | null;
-  numberOfVisits: number;
-  chronicCondition: string | null;
-  nextVisitOn: Date | null;
-  doctorId: string;
-};
 
 export const patientColumns: ColumnDef<Patient>[] = [
   {

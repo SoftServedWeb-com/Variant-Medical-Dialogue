@@ -1,12 +1,7 @@
-import { Eye } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Search, Upload } from "lucide-react";
-import { Patient } from "@/lib/types";
-import { PatientProfileDialog } from "../patient-dialog-box";
 import { DataTable } from "../data-table";
 import { patientColumns } from "../columns";
+import { Patient } from "@prisma/client";
 
 export default function PatientsTab({ patients }: { patients: Patient[] }) {
   return (
