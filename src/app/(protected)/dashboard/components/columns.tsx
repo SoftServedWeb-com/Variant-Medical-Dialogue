@@ -6,7 +6,7 @@ import { AppointmentWithPatient, PatientData } from "@/lib/types"; // Import the
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, Sparkle, Upload } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -19,6 +19,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { PatientProfileDialog } from "./patient-dialog-box";
 import { severityColor, statusColor } from "@/lib/types";
+import Link from "next/link";
 
 // Change the type here to AppointmentWithPatient
 export const appointmentColumns: ColumnDef<AppointmentWithPatient>[] = [
@@ -160,6 +161,14 @@ export const appointmentColumns: ColumnDef<AppointmentWithPatient>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem>View patient</DropdownMenuItem>
             <DropdownMenuItem>View appointment details</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link
+                className={buttonVariants({ variant: "outline" })}
+                href={`/dashboard/chat/${appointment.patientId}`}
+              >
+                Chat
+              </Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -184,7 +193,10 @@ export const patientColumns: ColumnDef<PatientData>[] = [
       const today = new Date();
       let age = today.getFullYear() - dob.getFullYear();
       const monthDiff = today.getMonth() - dob.getMonth();
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < dob.getDate())
+      ) {
         age--;
       }
       return <div className="text-sm text-gray-500">{age}</div>;
@@ -194,7 +206,9 @@ export const patientColumns: ColumnDef<PatientData>[] = [
     accessorKey: "lastVisit",
     header: "Last Visit",
     cell: ({ row }) => (
-      <div className="text-sm text-gray-500">{row.original.history.lastVisitOn}</div>
+      <div className="text-sm text-gray-500">
+        {row.original.history.lastVisitOn}
+      </div>
     ),
   },
   {
@@ -211,9 +225,14 @@ export const patientColumns: ColumnDef<PatientData>[] = [
             <Upload className="h-4 w-4 mr-2" />
             Upload Report
           </Button>
-          <Button variant="outline" size="sm"> 
-            <Sparkle className="h-4 w-4 mr-2" />  
-             Chat</Button>
+
+          <Link
+            className={buttonVariants({ variant: "outline" })}
+            href={`/dashboard/chat/${patient.id}`}
+          >
+            {" "}
+            <Sparkle className="h-4 w-4 mr-2" /> Chat
+          </Link>
         </div>
       );
     },

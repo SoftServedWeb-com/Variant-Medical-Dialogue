@@ -21,8 +21,7 @@ export async function POST(req: NextRequest) {
                     "description": "DESCRIPTION",
                     "severity": "SEVERITY"
                 }
-            ]
-            `,
+            ]`,
             model: AIMLAPI(model),
             prompt: `Here is the transcription: ${transcription}`,
         });
