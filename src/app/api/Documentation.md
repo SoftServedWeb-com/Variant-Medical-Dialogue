@@ -44,7 +44,7 @@ if no doctor is prefered, then pass in an empty string for doctorId
 #### POST /api/patient/check
 
 **Description**: Check if a patient with the given ID exists in the database. Also pass in the doctor ID and doctor prefered boolean. to get the availability of the preferred doctor
-
+DATE FORMAT : 1964-10-23
 **Request Body**:
 ```json
 {

@@ -72,16 +72,6 @@ export default function DoctorOnboardingForm({ userId }: { userId: string }) {
   // Handle form submission
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
-    // Simulate API call
-    // setTimeout(() => {
-    //   console.log(values);
-    //   toast.success("Doctor onboarded successfully", {
-    //     description: `Welcome, Dr. ${values.name}!`,
-    //   });
-    //   setIsSubmitting(false);
-    //   form.reset();
-    // }, 2000);
-    console.log("form submit values :: ",values, userId)
 
     try {
       const result = await createDoctor(
@@ -107,11 +97,10 @@ export default function DoctorOnboardingForm({ userId }: { userId: string }) {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to onboard doctor");
     } finally {
       setIsSubmitting(false);
+      revalidatePath("/dashboard")
     }
-    revalidatePath("/dashboard")
   }
 
   return (

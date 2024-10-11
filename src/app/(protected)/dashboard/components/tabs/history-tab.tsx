@@ -5,6 +5,9 @@ import { Download, Search } from "lucide-react"
 import { PatientHistory } from "@/lib/types";
 
 export default function Historytab({history}:{history:PatientHistory[]}){
+
+
+
     return (
         <div className="space-y-4">
         <div className="flex justify-between items-center">
@@ -30,6 +33,8 @@ export default function Historytab({history}:{history:PatientHistory[]}){
         </div>
 
         <div className="bg-white shadow-md rounded-lg p-6 space-y-4">
+          {history.length === 0 && <p className="text-center text-gray-500">No history found</p>}
+          {/* {JSON} */}
           {history.map((item, index) => (
             <div key={index} className={`flex items-center justify-between p-4 ${
               item.severity === 'SEVERE' ? 'bg-red-50' :

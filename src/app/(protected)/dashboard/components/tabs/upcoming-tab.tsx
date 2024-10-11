@@ -36,6 +36,7 @@ export default function UpcomingTab({
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
+            {appointments.length === 0 && <p className="text-center text-gray-500 py-4 w-full ">No upcoming appointments</p>}
             {appointments
               .filter((a) => a.status === AppointmentStatus.CONFIRMED && new Date(a.date) >= new Date())
               .map((appointment) => (
